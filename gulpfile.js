@@ -8,14 +8,17 @@ imagemin = require('gulp-imagemin'),
 cache = require('gulp-cache'),
 minifycss = require('gulp-minify-css'),
 less = require('gulp-less'),
+connect = require('gulp-connect-php'),
 browserSync = require('browser-sync');
 
 
 gulp.task('browser-sync', function() {
-  browserSync.init(null, {
-    proxy: "http://localhost:8080",
-    files: ["public/**/*.*"],
-    port: 8080,
+  connect.server({
+    base: 'public/',
+  }, function (){
+    browserSync({
+      proxy: '127.0.0.1:8000'
+    });
   });
 });
 
