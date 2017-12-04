@@ -21,10 +21,9 @@ $container['logger'] = function ($c) {
     return $logger;
 };
 
+//Flinstone database
 $container['db'] = function ($c) {
-
     $settings = $c->get('settings')['db'];
     $urls = new Flintstone('urls', $settings);
-
     return $urls;
 };

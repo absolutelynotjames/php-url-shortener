@@ -11,7 +11,7 @@
 <body>
     <div id="app">
         <form>
-            <input type="text" v-bind:style="input.style" v-bind:disabled="!input.enabled" v-bind:placeholder="input.placeHolderText" v-model="input.url">
+            <input type="text" v-bind:style="input.style" v-model="input.url" v-bind:readonly="input.completed" v-bind:placeholder="input.placeHolderText">
             <button v-on:click.prevent="submitUrl" v-bind:disabled="!input.url">{{ button.text }}</button>
         </form>
     </div>

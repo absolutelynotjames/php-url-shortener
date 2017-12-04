@@ -5,7 +5,7 @@ var app = new Vue({
     ready: function() {},
     data: {
         input: {
-            enabled: true,
+            completed: false,
             placeHolderText: 'Enter url...',
             url: '',
             style: {
@@ -25,10 +25,11 @@ var app = new Vue({
             });
             this.$http.post('/new', payload).then(function success(response) {
                 console.log(response.body);
+                this.input.completed = true;
                 this.input.url = response.body;
-                this.input.enabled = false;
                 this.button.text = 'Copy';
-                this.input.style.width = ((this.input.url.length) * 8) + 'px';
+                this.input.style.width = (this.input.url.length) + 'em';
+                console.log(this.input.completed);
             }, function error(response) {
                 console.log(response);
             });
