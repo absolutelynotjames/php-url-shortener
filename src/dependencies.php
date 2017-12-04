@@ -1,4 +1,7 @@
 <?php
+
+use Flintstone\Flintstone;
+
 // DIC configuration
 
 $container = $app->getContainer();
@@ -16,4 +19,12 @@ $container['logger'] = function ($c) {
     $logger->pushProcessor(new Monolog\Processor\UidProcessor());
     $logger->pushHandler(new Monolog\Handler\StreamHandler($settings['path'], $settings['level']));
     return $logger;
+};
+
+$container['db'] = function ($c) {
+
+    $settings = $c->get('settings')['db'];
+    $urls = new Flintstone('urls', $settings);
+
+    return $urls;
 };
