@@ -37,7 +37,7 @@
         }
         
         //strip www from host if it exists
-        $parse['host'] = preg_replace('#^www\.(.+\.)#i', '$1', $parse['host']);  
+        $url = preg_replace('#^(http(s)?://)?w{3}\.#', '$1', $url);
 
         return $url;
     }
