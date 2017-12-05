@@ -24,12 +24,19 @@ var app = new Vue({
                 "url": this.input.url,
             });
             this.$http.post('/new', payload).then(function success(response) {
-                console.log(response.body);
+                
+                //short url is supplied by the url param of response body
+                var shortUrl = (JSON.parse(response.body)).url;
+                
+                //update our bindings
                 this.input.completed = true;
-                this.input.url = response.body;
+                this.input.placeHolderText = shortUrl;
+                this.input.url = shortUrl;
                 this.button.text = 'Copy';
-                this.input.style.width = (this.input.url.length) + 'em';
-                console.log(this.input.completed);
+                
+                //try to simulate a more reasonable input width based on url length
+                this.input.style.width = ((this.input.url.length) / 1.5) + 'rem';
+
             }, function error(response) {
                 console.log(response);
             });

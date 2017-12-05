@@ -3,7 +3,6 @@
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-
 $app->get('/', function (Request $request, Response $response, array $args) {
     // Render index view
     return $this->renderer->render($response, 'index.phtml', $args);
@@ -17,9 +16,9 @@ $app->get('/{id:[0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ]
 
     //if db returns something for this key
     if ($key):
-        return $response->withRedirect($key['url']);         
+        return $response->withRedirect($key['url']);
     else:
-        return $response->withRedirect('/');                 
+        return $response->withRedirect('/');
     endif;
 
     return $this->renderer->render($response, 'index.phtml', $args);
@@ -27,12 +26,14 @@ $app->get('/{id:[0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ]
 
 $app->post('/new', function (Request $request, Response $response, array $args) {
 
+    $body = $response->getBody();
+
     //get post body
-    $submission = $request->getParsedBody();    
+    $submission = $request->getParsedBody();
 
     //random number generator for unique id
     $randomFactory = new RandomLib\Factory;
-    $idGenerator = $randomFactory->getLowStrengthGenerator();    
+    $idGenerator = $randomFactory->getLowStrengthGenerator();
 
     //let's keep our character set simple
     $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -45,17 +46,22 @@ $app->post('/new', function (Request $request, Response $response, array $args) 
 
     //make sure id isn't already in the database
     while ($this->db->get($id) !== false):
-        $id = $idGenerator->generateString(8, $characters);        
+        $id = $idGenerator->generateString(8, $characters);
     endwhile;
 
-    $this->logger->info($submission['url']);
-    
-    //submit url to database    
-    try {
-        $this->db->set($id, ['url' => $submission['url'], 'time' => $time]);
-    } catch(Exception $e) {
-        $this->logger->info($e);
-    } finally {
-        return $id;
-    }
+    // build url with id
+    $url = $this->url . $id;
+
+    //submit to database
+    $this->db->set($id, ['url' => $submission['url'], 'time' => $time]);
+
+    $this->logger->info($url . ' submitted');    
+
+    //build json 
+    $body->write(json_encode(array(
+        "url" => $url,
+    ), JSON_UNESCAPED_SLASHES));
+
+    //respond with the full url
+    return $response;
 });
