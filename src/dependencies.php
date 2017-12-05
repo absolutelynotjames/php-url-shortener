@@ -3,7 +3,6 @@
 use Flintstone\Flintstone;
 
 // DIC configuration
-
 $container = $app->getContainer();
 
 // view renderer
@@ -26,4 +25,18 @@ $container['db'] = function ($c) {
     $settings = $c->get('settings')['db'];
     $urls = new Flintstone('urls', $settings);
     return $urls;
+};
+
+$container['url'] = function($c) {    
+        //protocol
+        $protocol = empty($_SERVER['HTTPS']) ? 'http' : 'https';
+        // domain name
+        $domain = $_SERVER['SERVER_NAME'];
+        // server port
+        $port = $_SERVER['SERVER_PORT'];
+        $disp_port = ($protocol == 'http' && $port == 80 || $protocol == 'https' && $port == 443) ? '' : ":$port";
+    
+        // complete url
+        $url = "${protocol}://${domain}${disp_port}/";
+        return $url;
 };
