@@ -2,7 +2,10 @@
 
 var app = new Vue({
     el: '#app',
-    ready: function () { },
+    ready: function () { 
+        this.csrfName = document.getElementById('csrf_name').value;
+        this.csrfValue = document.getElementById('csrf_value').value;
+    },
     data: {
         input: {
             completed: false,

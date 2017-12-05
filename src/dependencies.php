@@ -27,6 +27,7 @@ $container['db'] = function ($c) {
     return $urls;
 };
 
+//current site url
 $container['url'] = function ($c) {
     //protocol
     $protocol = empty($_SERVER['HTTPS']) ? 'http' : 'https';
@@ -41,11 +42,16 @@ $container['url'] = function ($c) {
     return $url;
 };
 
+// /new controller
 $container['NewController'] = function ($c) {
-
     $url = $c->get("url"); // retrieve the 'view' from the container
     $db = $c->get("db"); // retrieve the 'view' from the container
     $logger = $c->get("logger"); // retrieve the 'view' from the container
 
     return new NewController($url, $db, $logger);
+};
+
+// Slim Framework CSRF Protection
+$container['csrf'] = function ($c) {
+    return new \Slim\Csrf\Guard;
 };

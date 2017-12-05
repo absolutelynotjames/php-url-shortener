@@ -20,7 +20,7 @@
 
     public function normalizeUrl($url)
     {
-
+        //check to see if we're dealing with a valid url, if not someone got sneaky!
         if (!preg_match("/^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/", $url)) {
             return false;
         }

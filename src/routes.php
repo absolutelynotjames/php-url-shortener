@@ -5,6 +5,17 @@ use Slim\Http\Response;
 
 $app->get('/', function (Request $request, Response $response, array $args) {
     // Render index view
+
+    $request = $this->csrf->generateNewToken($request);    
+    
+    // CSRF token name and value
+    $nameKey = $this->csrf->getTokenNameKey();
+    $valueKey = $this->csrf->getTokenValueKey();
+    $name = $request->getAttribute($nameKey);
+    $value = $request->getAttribute($valueKey);
+
+    $args = ['nameKey' => $nameKey, 'valueKey' => $valueKey, 'name' => $name, 'value'=>$value];
+
     return $this->renderer->render($response, 'index.phtml', $args);
 });
 
