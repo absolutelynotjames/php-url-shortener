@@ -11,7 +11,7 @@
 <body>
     <div id="app">
         <form>
-            <input type="text" v-el:input v-bind:style="input.style" v-model="input.url" v-bind:readonly="input.completed" v-bind:placeholder="input.placeHolderText">
+            <input type="text" pattern="^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$" required v-el:input v-bind:style="input.style" v-model="input.url" v-bind:readonly="input.completed" v-bind:placeholder="input.placeHolderText">
             <button v-on:click.prevent="buttonHandler" v-bind:disabled="!input.url">{{ button.text }}</button>
         </form>
     </div>
