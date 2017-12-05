@@ -1,8 +1,10 @@
 # Simple URL Shortener
 
-Tiny URL shortener built on SlimPHP.
+![alt text](https://raw.githubusercontent.com/absolutelynotjames/php-url-shortener/master/screenshot.png)
 
-Provides an input field for a user to submit a url. Upon submission, validates the url, normalizes the url pattern, generates a unique hash, and returns a short url to the user based on the hash. The application will then route that short url to the original user provided url.
+Tiny URL shortener built on SlimPHP and VueJS.
+
+Provides a secure input field for a user to submit a url. Upon submission, validates the url, normalizes the url pattern, generates a unique hash, and returns a short url to the user based on the hash. The application will then route that short url to the original user provided url.
 
 ## Install the Application
 
