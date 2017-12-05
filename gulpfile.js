@@ -68,3 +68,5 @@ gulp.task('styles', function(){
       gulp.watch("public/src/js/**/*.js", ['scripts']);
       gulp.watch("public/*.html", ['bs-reload']);
     });
+
+    gulp.task('build', ['images', 'styles','scripts']);
