@@ -2,7 +2,7 @@
 
 var app = new Vue({
     el: '#app',
-    ready: function() {},
+    ready: function () { },
     data: {
         input: {
             completed: false,
@@ -18,28 +18,41 @@ var app = new Vue({
         }
     },
     methods: {
-        submitUrl: function() {
-            this.input.style.width = '0px';
-            var payload = JSON.stringify({
-                "url": this.input.url,
-            });
-            this.$http.post('/new', payload).then(function success(response) {
-                
-                //short url is supplied by the url param of response body
-                var shortUrl = (JSON.parse(response.body)).url;
-                
-                //update our bindings
-                this.input.completed = true;
-                this.input.placeHolderText = shortUrl;
-                this.input.url = shortUrl;
-                this.button.text = 'Copy';
-                
-                //try to simulate a more reasonable input width based on url length
-                this.input.style.width = ((this.input.url.length) / 1.5) + 'rem';
+        buttonHandler: function () {
+            if (this.input.completed) {
+                                
+                //copy text to clipboard
+                this.$els.input.select();
+                              
+                try {
+                    document.execCommand('copy');
+                } catch (err) {
+                    console.log(err);
+                }
+            }
+            else {
+                this.input.style.width = '0px';
+                var payload = JSON.stringify({
+                    "url": this.input.url,
+                });
+                this.$http.post('/new', payload).then(function success(response) {
 
-            }, function error(response) {
-                console.log(response);
-            });
+                    //short url is supplied by the url param of response body
+                    var shortUrl = (JSON.parse(response.body)).url;
+
+                    //update our bindings
+                    this.input.completed = true;
+                    this.input.placeHolderText = shortUrl;
+                    this.input.url = shortUrl;
+                    this.button.text = 'Copy';
+
+                    //try to simulate a more reasonable input width based on url length
+                    this.input.style.width = ((this.input.url.length) / 1.5) + 'rem';
+
+                }, function error(response) {
+                    console.log(response);
+                });
+            }
         }
     }
 })
