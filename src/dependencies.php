@@ -27,16 +27,25 @@ $container['db'] = function ($c) {
     return $urls;
 };
 
-$container['url'] = function($c) {    
-        //protocol
-        $protocol = empty($_SERVER['HTTPS']) ? 'http' : 'https';
-        // domain name
-        $domain = $_SERVER['SERVER_NAME'];
-        // server port
-        $port = $_SERVER['SERVER_PORT'];
-        $disp_port = ($protocol == 'http' && $port == 80 || $protocol == 'https' && $port == 443) ? '' : ":$port";
-    
-        // complete url
-        $url = "${protocol}://${domain}${disp_port}/";
-        return $url;
+$container['url'] = function ($c) {
+    //protocol
+    $protocol = empty($_SERVER['HTTPS']) ? 'http' : 'https';
+    // domain name
+    $domain = $_SERVER['SERVER_NAME'];
+    // server port
+    $port = $_SERVER['SERVER_PORT'];
+    $disp_port = ($protocol == 'http' && $port == 80 || $protocol == 'https' && $port == 443) ? '' : ":$port";
+
+    // complete url
+    $url = "${protocol}://${domain}${disp_port}/";
+    return $url;
+};
+
+$container['NewController'] = function ($c) {
+
+    $url = $c->get("url"); // retrieve the 'view' from the container
+    $db = $c->get("db"); // retrieve the 'view' from the container
+    $logger = $c->get("logger"); // retrieve the 'view' from the container
+
+    return new NewController($url, $db, $logger);
 };
