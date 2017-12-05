@@ -6,6 +6,7 @@ var app = new Vue({
     data: {
         input: {
             completed: false,
+            disabled: "disabled",
             placeHolderText: 'Enter url...',
             url: '',
             style: {
@@ -14,16 +15,35 @@ var app = new Vue({
             }
         },
         button: {
-            text: 'Submit'
+            text: 'Submit',
+            disabled: 'disabled'
+        },
+    },
+    watch: {
+        'input.url': function () {
+            if (this.formIsValid()) {
+                this.$set('input.disabled', false)
+            }
+            else {
+                this.$set('input.disabled', "disabled")
+            }
+            console.log(this.input.disabled);
+            console.dir(this);                        
         }
     },
     methods: {
+        formIsValid: function () {
+            if (this.$els.input.validity.valid == true) {
+                return 'true';
+            }
+            return false;
+        },
         buttonHandler: function () {
             if (this.input.completed) {
-                                
+
                 //copy text to clipboard
                 this.$els.input.select();
-                              
+
                 try {
                     document.execCommand('copy');
                 } catch (err) {
