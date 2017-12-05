@@ -24,6 +24,12 @@ require __DIR__ . '/../src/dependencies.php';
 require __DIR__ . '/../src/middleware.php';
 
 // Register controllers
+foreach (glob("/..src/controllers/*.php") as $controller)
+{
+    include $controller;
+}
+
+
 require __DIR__ . '/../src/controllers/new.php';
 
 // Register routes
